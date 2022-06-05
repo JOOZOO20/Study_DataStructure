@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		System.out.println("hw11_1 : 차희주");
+
+		// (1) 학생 수(n)과 n개의 학번을 입력받음.
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int[] list1 = new int[n];
+		for(int i=0;i<n;i++) {
+			list1[i]=sc.nextInt();
+		}
+
+		// (2) n개의 학번을 문제의 기준에 따라 오름차순 정렬함.
+		insertionSort(list1);
+
+		// (3) 정렬된 순서대로 n개의 학번을 출력함.
+		for(int i=0; i<n;i++) {
+			System.out.println(list1[i]);
+		}
+
+		sc.close();
+
+
+	}
+
+	// id의 소속을 구분
+	private static int department(int id) {
+		return id / 1000%100;
+	}
+
+	// id의 입학년도를 구분
+	private static int year(int id) {
+		return id/100000;
+	}
+
+	// id의 번호를 구분
+	private static int number(int id) {
+		return id%1000;
+	}
+
+	// 저장된 학번을 오름차순 정렬하는 insertionSort 메소드
+	private static void insertionSort(int [] list2) {
+		int j;
+		for(int i=0; i<list2.length;i++) {
+			int item=list2[i];
+			for(j=i; (j>0)&&greater(list2[j-1],item);j--) {
+				list2[j]=list2[j-1];
+			}
+			list2[j]=item;
+		}
+	}
+
+	// id1 > id2 여부를 검사하는 greater 메소드
+	private static boolean greater(int id1, int id2) {
+		// 소속을 기준으로 비교
+		if(department(id1)>department(id2))
+			return true;
+		else if(department(id1)<department(id2))
+			return false;
+		// 소속이 같으면
+		else {									
+			if(year(id1)>year(id2))				// 입학년도를 기준으로 비교
+				return true;
+			else if(year(id1) < year(id2))
+				return false;
+			// 입학년도가 같으면
+			else {								
+				return number(id1) > number(id2);	// 번호로 비교함.
+			}
+		}
+	}
+
+}
